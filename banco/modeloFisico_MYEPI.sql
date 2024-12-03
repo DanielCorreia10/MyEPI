@@ -43,7 +43,7 @@ CREATE TABLE EPI (
 );
 
 -- Tabela Entrega_Troca_Devolucao
-CREATE TABLE registros (
+CREATE TABLE Entrega_Troca_Devolucao(
     idEntrega_Troca_Devolucao INT AUTO_INCREMENT PRIMARY KEY,
     Funcionario_idFuncionario INT,
     EPI_idEPI INT,
