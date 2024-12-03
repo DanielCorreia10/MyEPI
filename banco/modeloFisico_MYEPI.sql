@@ -51,12 +51,12 @@ CREATE TABLE EPI (
 
 -- Tabela Entrega_Troca_Devolucao
 CREATE TABLE Entrega_Troca_Devolucao (
-    idEntrega_Troca_Devolucao INT AUTO_INCREMENT PRIMARY KEY,
     Quantidade_entregue INT NOT NULL,
     data_entrega DATE NOT NULL,
     Hora_entrega TIME NOT NULL,
     Funcionario_idFuncionario INT,
     EPI_idEPI INT,
+	PRIMARY KEY (Funcionario_idFuncionario, EPI_idEPI),  -- Chave composta como chave primária
     CONSTRAINT FK_Funcionario_Entrega FOREIGN KEY (Funcionario_idFuncionario) REFERENCES Funcionario(idFuncionario)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE,
