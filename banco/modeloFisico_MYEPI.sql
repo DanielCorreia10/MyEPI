@@ -56,7 +56,7 @@ CREATE TABLE Entrega_Troca_Devolucao (
     Hora_entrega TIME NOT NULL,
     Funcionario_idFuncionario INT,
     EPI_idEPI INT,
-	PRIMARY KEY (Funcionario_idFuncionario, EPI_idEPI),  -- Chave composta como chave primária
+    PRIMARY KEY (Funcionario_idFuncionario, EPI_idEPI),  -- Chave composta como chave primária
     CONSTRAINT FK_Funcionario_Entrega FOREIGN KEY (Funcionario_idFuncionario) REFERENCES Funcionario(idFuncionario)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE,
