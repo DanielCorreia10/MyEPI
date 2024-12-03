@@ -13,9 +13,10 @@ CREATE TABLE Funcionario (
     NomeFuncionario VARCHAR(45) NOT NULL,
     Sobrenome VARCHAR(45) NOT NULL,
     Cargo_idCargo INT,
-	CONSTRAINT FK_Cargo_Funcionario FOREIGN KEY (Cargo_idCargo) REFERENCES Cargo(idCargo)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE
+	CONSTRAINT FK_Cargo_Funcionario 
+    FOREIGN KEY (Cargo_idCargo) REFERENCES Cargo(idCargo)
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE
 );
 
 -- Tabela Marca
@@ -41,11 +42,11 @@ CREATE TABLE EPI (
     Marca_idMarca INT,
     Tipo_idTipo INT,
     CONSTRAINT FK_Marca_Epi FOREIGN KEY (Marca_idMarca) REFERENCES Marca(idMarca)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE,
     CONSTRAINT FK_Tipo_Epi FOREIGN KEY (Tipo_idTipo) REFERENCES Tipo(idTipo)
-	ON DELETE RESTRICT
-    ON UPDATE CASCADE
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE
 );
 
 -- Tabela Entrega_Troca_Devolucao
@@ -57,9 +58,9 @@ CREATE TABLE Entrega_Troca_Devolucao (
     Funcionario_idFuncionario INT,
     EPI_idEPI INT,
     CONSTRAINT FK_Funcionario_Entrega FOREIGN KEY (Funcionario_idFuncionario) REFERENCES Funcionario(idFuncionario)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
     CONSTRAINT FK_Epi_Entrega FOREIGN KEY (EPI_idEPI) REFERENCES EPI(idEPI)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
 );
