@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS EPIGerenciamento;
-USE EPIGerenciamento;
+CREATE DATABASE IF NOT EXISTS MyEPI_DB;
+USE MyEPI_DB;
 
 -- Tabela Cargo
 CREATE TABLE Cargo (
@@ -13,7 +13,9 @@ CREATE TABLE Funcionario (
     NomeFuncionario VARCHAR(45) NOT NULL,
     Sobrenome VARCHAR(45) NOT NULL,
     Cargo_idCargo INT,
-    FOREIGN KEY (Cargo_idCargo) REFERENCES Cargo(idCargo)
+	CONSTRAINT FK_Cargo_Funcionario FOREIGN KEY (Cargo_idCargo) REFERENCES Cargo(idCargo)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
 );
 
 -- Tabela Marca
@@ -32,24 +34,32 @@ CREATE TABLE Tipo (
 CREATE TABLE EPI (
     idEPI INT AUTO_INCREMENT PRIMARY KEY,
     NomeEPI VARCHAR(45) NOT NULL,
-    Validade DATE,
-    CA INT,
+    Validade DATE NOT NULL,
+    CA INT NOT NULL,
     Descricao VARCHAR(100),
+    Quantidade INT NOT NULL,
     Marca_idMarca INT,
-    Quantidade INT,
     Tipo_idTipo INT,
-    FOREIGN KEY (Marca_idMarca) REFERENCES Marca(idMarca),
-    FOREIGN KEY (Tipo_idTipo) REFERENCES Tipo(idTipo)
+    CONSTRAINT FK_Marca_Epi FOREIGN KEY (Marca_idMarca) REFERENCES Marca(idMarca)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+    CONSTRAINT FK_Tipo_Epi FOREIGN KEY (Tipo_idTipo) REFERENCES Tipo(idTipo)
+	ON DELETE RESTRICT
+    ON UPDATE CASCADE
 );
 
 -- Tabela Entrega_Troca_Devolucao
-CREATE TABLE Entrega_Troca_Devolucao(
+CREATE TABLE Entrega_Troca_Devolucao (
     idEntrega_Troca_Devolucao INT AUTO_INCREMENT PRIMARY KEY,
+    Quantidade_entregue INT NOT NULL,
+    data_entrega DATE NOT NULL,
+    Hora_entrega TIME NOT NULL,
     Funcionario_idFuncionario INT,
     EPI_idEPI INT,
-    Quantidade_entregue INT,
-    data_entrega DATE,
-    Hora_entrega TIME,
-    FOREIGN KEY (Funcionario_idFuncionario) REFERENCES Funcionario(idFuncionario),
-    FOREIGN KEY (EPI_idEPI) REFERENCES EPI(idEPI)
+    CONSTRAINT FK_Funcionario_Entrega FOREIGN KEY (Funcionario_idFuncionario) REFERENCES Funcionario(idFuncionario)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT FK_Epi_Entrega FOREIGN KEY (EPI_idEPI) REFERENCES EPI(idEPI)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
