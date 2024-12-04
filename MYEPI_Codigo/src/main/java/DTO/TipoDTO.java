@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DTO;
 
-/**
- *
- * @author arauj
- */
 public class TipoDTO extends MarcaDTO{
     private String nomeTipo;
+    private int idTipo;
 
     public String getNomeTipo() {
         return nomeTipo;
@@ -17,6 +11,14 @@ public class TipoDTO extends MarcaDTO{
 
     public void setNomeTipo(String nomeTipo) {
         this.nomeTipo = nomeTipo;
+    }
+
+    public int getIdTipo() {
+        return idTipo;
+    }
+
+    public void setIdTipo(int idTipo) {
+        this.idTipo = idTipo;
     }
     
     

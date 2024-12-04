@@ -18,7 +18,7 @@ public class Conexao {
         Connection conn = null;
         
         try {
-            String url = "jdbc:mysql://localhost/myepi_db?user=root&password";
+            String url = "jdbc:mysql://localhost/myepi_bd?user=root&password";
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
