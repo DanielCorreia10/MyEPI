@@ -18,7 +18,7 @@ public class MarcaDAO {
     PreparedStatement pstm;
     
     public void cadastrarFuncionario(MarcaDTO marcadto){
-        String sql = "insert into tabela(NomeMarca)values (?)";
+        String sql = "insert into marca(nomeMarca)values (?)";
         
         conn = new Conexao().conectaBD();
         

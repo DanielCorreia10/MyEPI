@@ -18,7 +18,7 @@ public class EPIDAO {
     PreparedStatement pstm;
     
     public void cadastrarEPI(EPIDTO epidto){
-        String sql = "insert into tabela(NomeEPI, Validade, CA, Descricao, Quantidade)values (?,?,?,?,?)";
+        String sql = "insert into epi (nomeEPI, validade, ca, descricao, quantidade, marca_idMarca, tipo_idTipo)values (?,?,?,?,?,?,?)";
         
         conn = new Conexao().conectaBD();
         

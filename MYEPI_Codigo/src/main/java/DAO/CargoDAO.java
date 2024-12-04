@@ -14,11 +14,11 @@ import javax.swing.JOptionPane;
  * @author arauj
  */
 public class CargoDAO {
-     Connection conn;
+    Connection conn;
     PreparedStatement pstm;
     
     public void cadastrarCargo(CargoDTO cargodto){
-        String sql = "insert into tabela(NomeCargo)values (?)";
+        String sql = "insert into cargo(nomeCargo)values (?)";
         
         conn = new Conexao().conectaBD();
         

@@ -19,7 +19,7 @@ public class TipoDAO {
     PreparedStatement pstm;
 
     public void cadastrarFuncionario(TipoDTO tipodto) {
-        String sql = "insert into tabela(NomeTipo)values (?)";
+        String sql = "insert into tipo(nomeTipo)values (?)";
 
         conn = new Conexao().conectaBD();
 
