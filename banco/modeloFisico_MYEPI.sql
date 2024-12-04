@@ -51,7 +51,7 @@ CREATE TABLE EPI (
 
 -- Tabela Entrega_Troca_Devolucao
 CREATE TABLE Entrega_Troca_Devolucao (
-	idEntrega INT AUTO_INCREMENT PRIMARY KEY,
+    idEntrega INT AUTO_INCREMENT PRIMARY KEY,
     quantidade_entregue INT NOT NULL,
     data_entrega DATE NOT NULL,
     hora_entrega TIME NOT NULL,
