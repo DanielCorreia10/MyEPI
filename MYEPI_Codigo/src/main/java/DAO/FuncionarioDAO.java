@@ -45,8 +45,8 @@ public class FuncionarioDAO {
             FuncionarioDTO funcionariodto = new FuncionarioDTO();
             funcionariodto.setIdFuncionario(rs.getInt("idFuncionario"));
             funcionariodto.setNomeFuncionario(rs.getString("nomeFuncionario"));
-            funcionariodto.setNomeFuncionario(rs.getString("sobrenome"));
-            funcionariodto.setNomeFuncionario(rs.getString("nomeFuncionario"));
+            funcionariodto.setSobrenomeFuncionario(rs.getString("sobrenome"));
+            funcionariodto.setCargo_idCargo(rs.getInt("cargo_idCargo"));
           
             
             lista.add(funcionariodto);

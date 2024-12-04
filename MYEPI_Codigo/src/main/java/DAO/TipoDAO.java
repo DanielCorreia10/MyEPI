@@ -13,6 +13,8 @@ public class TipoDAO {
     PreparedStatement pstm;
     ResultSet rs;
 
+
+
     public void cadastrarFuncionario(TipoDTO tipodto) {
         String sql = "insert into tipo(nomeTipo)values (?)";
 
@@ -35,10 +37,10 @@ public class TipoDAO {
         rs = pstm.executeQuery();
 
         if (rs.next()) {
-            TipoDTO marca = new TipoDTO();
-            marca.setIdMarca(rs.getInt("idTipo"));
-            marca.setNomeMarca(rs.getString("nomeTipo"));
-            return marca;
+            TipoDTO tipo = new TipoDTO();
+            tipo.setIdMarca(rs.getInt("idTipo"));
+            tipo.setNomeMarca(rs.getString("nomeTipo"));
+            return tipo;
         }
 
         return null;

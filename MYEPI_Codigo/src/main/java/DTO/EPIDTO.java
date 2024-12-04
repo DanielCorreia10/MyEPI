@@ -66,5 +66,13 @@ public class EPIDTO {
         this.idEpi = idEpi;
     }
 
+    public void setValidade(Date validade) {
+        this.validade = validade;
+    }
+
+    public void setCa(int ca) {
+        this.ca = ca;
+    }
+
     
 }
