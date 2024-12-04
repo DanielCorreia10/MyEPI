@@ -1,20 +1,20 @@
-CREATE DATABASE IF NOT EXISTS MyEPI_DB;
-USE MyEPI_DB;
+CREATE DATABASE IF NOT EXISTS MyEPI_BD;
+USE MyEPI_BD;
 
 -- Tabela Cargo
 CREATE TABLE Cargo (
     idCargo INT AUTO_INCREMENT PRIMARY KEY,
-    NomeCargo VARCHAR(45) NOT NULL
+    nomeCargo VARCHAR(45) NOT NULL
 );
 
 -- Tabela Funcionario
 CREATE TABLE Funcionario (
     idFuncionario INT AUTO_INCREMENT PRIMARY KEY,
-    NomeFuncionario VARCHAR(45) NOT NULL,
-    Sobrenome VARCHAR(45) NOT NULL,
-    Cargo_idCargo INT,
+    nomeFuncionario VARCHAR(45) NOT NULL,
+    sobrenome VARCHAR(45) NOT NULL,
+    cargo_idCargo INT,
 	CONSTRAINT FK_Cargo_Funcionario 
-    FOREIGN KEY (Cargo_idCargo) REFERENCES Cargo(idCargo)
+    FOREIGN KEY (cargo_idCargo) REFERENCES Cargo(idCargo)
 		ON DELETE RESTRICT
 		ON UPDATE CASCADE
 );
@@ -22,45 +22,45 @@ CREATE TABLE Funcionario (
 -- Tabela Marca
 CREATE TABLE Marca (
     idMarca INT AUTO_INCREMENT PRIMARY KEY,
-    NomeMarca VARCHAR(45) NOT NULL
+    nomeMarca VARCHAR(45) NOT NULL
 );
 
 -- Tabela Tipo
 CREATE TABLE Tipo (
     idTipo INT AUTO_INCREMENT PRIMARY KEY,
-    NomeTipo VARCHAR(45) NOT NULL
+    nomeTipo VARCHAR(45) NOT NULL
 );
 
 -- Tabela EPI
 CREATE TABLE EPI (
-    idEPI INT AUTO_INCREMENT PRIMARY KEY,
-    NomeEPI VARCHAR(45) NOT NULL,
-    Validade DATE NOT NULL,
-    CA INT NOT NULL,
-    Descricao VARCHAR(100),
-    Quantidade INT NOT NULL,
-    Marca_idMarca INT,
-    Tipo_idTipo INT,
-    CONSTRAINT FK_Marca_Epi FOREIGN KEY (Marca_idMarca) REFERENCES Marca(idMarca)
+    idEpi INT AUTO_INCREMENT PRIMARY KEY,
+    NomeEpi VARCHAR(45) NOT NULL,
+    validade DATE NOT NULL,
+    ca INT NOT NULL,
+    descricao VARCHAR(100),
+    quantidade INT NOT NULL,
+    marca_idMarca INT,
+    tipo_idTipo INT,
+    CONSTRAINT FK_Marca_Epi FOREIGN KEY (marca_idMarca) REFERENCES Marca(idMarca)
 		ON DELETE RESTRICT
 		ON UPDATE CASCADE,
-    CONSTRAINT FK_Tipo_Epi FOREIGN KEY (Tipo_idTipo) REFERENCES Tipo(idTipo)
+    CONSTRAINT FK_Tipo_Epi FOREIGN KEY (tipo_idTipo) REFERENCES Tipo(idTipo)
 		ON DELETE RESTRICT
 		ON UPDATE CASCADE
 );
 
 -- Tabela Entrega_Troca_Devolucao
 CREATE TABLE Entrega_Troca_Devolucao (
-    Quantidade_entregue INT NOT NULL,
+	idEntrega INT AUTO_INCREMENT PRIMARY KEY,
+    quantidade_entregue INT NOT NULL,
     data_entrega DATE NOT NULL,
-    Hora_entrega TIME NOT NULL,
-    Funcionario_idFuncionario INT,
-    EPI_idEPI INT,
-    PRIMARY KEY (Funcionario_idFuncionario, EPI_idEPI),  -- Chave composta como chave primária
-    CONSTRAINT FK_Funcionario_Entrega FOREIGN KEY (Funcionario_idFuncionario) REFERENCES Funcionario(idFuncionario)
+    hora_entrega TIME NOT NULL,
+    funcionario_idFuncionario INT,
+    epi_idEpi INT,
+    CONSTRAINT FK_Funcionario_Entrega FOREIGN KEY (funcionario_idFuncionario) REFERENCES Funcionario(idFuncionario)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE,
-    CONSTRAINT FK_Epi_Entrega FOREIGN KEY (EPI_idEPI) REFERENCES EPI(idEPI)
+    CONSTRAINT FK_Epi_Entrega FOREIGN KEY (epi_idEpi) REFERENCES EPI(idEPI)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
 );
