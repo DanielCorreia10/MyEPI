@@ -38,7 +38,7 @@ public class EPIDAO {
         }
     }
 
-    public ArrayList<EPIDTO> PesquisarEpi() {
+    public ArrayList<EPIDTO> ListarEpis() {
 
         String sql = "select * from epi";
         conn = new Conexao().conectaBD();
