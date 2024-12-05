@@ -31,6 +31,8 @@ public class EPIDAO {
             pstm.setInt(3, epidto.getCa());
             pstm.setString(4, epidto.getDescricao());
             pstm.setInt(5, epidto.getQuantidade());
+            pstm.setInt(6, epidto.getMarca_idMarca());
+            pstm.setInt(7, epidto.getTipo_idTipo());
             pstm.execute();
             pstm.close();
         } catch (Exception e) {

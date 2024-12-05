@@ -5,6 +5,7 @@ import java.sql.Date;
 
 
 public class EPIDTO {
+    
     private String nomeEpi, descricao;
     private Date validade;
     private int idEpi, ca, quantidade, marca_idMarca, tipo_idTipo;
