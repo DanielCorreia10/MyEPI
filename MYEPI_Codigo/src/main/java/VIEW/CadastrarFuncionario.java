@@ -4,6 +4,10 @@
  */
 package VIEW;
 
+import DAO.FuncionarioDAO;
+import DTO.FuncionarioDTO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author samue
@@ -40,7 +44,8 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        boxCargo = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         jTabbedPane2.addTab("ID", jTabbedPane1);
         jTabbedPane2.addTab("Nome", jTabbedPane4);
@@ -100,7 +105,15 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Engenheiro Civil", "Pedreiro", "Carpinteiro", "Eletricista", "Pintor" }));
+        boxCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Engenheiro Civil", "Pedreiro", "Carpinteiro", "Eletricista", "Pintor" }));
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setText("Cadastrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,8 +139,12 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSobrenome, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                             .addComponent(txtNome)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(boxCargo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(220, 220, 220))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(331, 331, 331)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,8 +167,10 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(262, Short.MAX_VALUE))
+                    .addComponent(boxCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(217, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,6 +187,24 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        String nome = txtNome.getText();
+        String sobrenome = txtSobrenome.getText();
+        int cargoId = boxCargo.getSelectedIndex();
+        
+        FuncionarioDTO funcionarioDto = new FuncionarioDTO();
+        funcionarioDto.setNomeFuncionario(nome);
+        funcionarioDto.setSobrenomeFuncionario(sobrenome);
+        funcionarioDto.setCargo_idCargo(cargoId);
+        
+        FuncionarioDAO funcionarioDao = new FuncionarioDAO();
+        funcionarioDao.cadastrarFuncionario(funcionarioDto);
+        
+        JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!");
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,8 +243,9 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> boxCargo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

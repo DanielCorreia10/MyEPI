@@ -30,19 +30,4 @@ public class TipoDAO {
         }
     }
 
-    public TipoDTO buscarPorId(int idTipo) throws SQLException  {
-        String sql = "SELECT * FROM cargo WHERE idMarca = ?";
-        pstm = conn.prepareStatement(sql);
-        pstm.setInt(1, idTipo);
-        rs = pstm.executeQuery();
-
-        if (rs.next()) {
-            TipoDTO tipo = new TipoDTO();
-            tipo.setIdMarca(rs.getInt("idTipo"));
-            tipo.setNomeMarca(rs.getString("nomeTipo"));
-            return tipo;
-        }
-
-        return null;
-    }
 }

@@ -40,23 +40,75 @@ public class EPIDAO {
         }
     }
 
-    public ArrayList<EPIDTO> ListarEpis() {
+    public ArrayList<EPIDTO> ListarTodosEpis() {
+         
+        try {
 
-        String sql = "select * from epi";
-        conn = new Conexao().conectaBD();
+             String sql = "SELECT e.idEpi, e.nomeEpi, t.nomeTipo, m.nomeMarca, e.quantidade, e.validade, e.descricao, e.ca " +
+             "FROM epi e " +
+             "JOIN tipo t ON e.tipo_idTipo = t.idTipo " +
+             "JOIN marca m ON e.marca_idMarca = m.idMarca " +
+             "ORDER BY e.idEpi";
 
-        try (PreparedStatement pstm = conn.prepareStatement(sql); ResultSet rs = pstm.executeQuery()) {
-
-            TipoDAO tipoDao = new TipoDAO();
-            MarcaDAO marcaDao = new MarcaDAO();
+            conn = new Conexao().conectaBD();
+            pstm = conn.prepareStatement(sql);
+            rs = pstm.executeQuery();
 
             while (rs.next()) {
 
                 EPIDTO epiDto = new EPIDTO();
                 epiDto.setIdEpi(rs.getInt("idEpi"));
                 epiDto.setNomeEpi(rs.getString("nomeEpi"));
-                epiDto.setTipo_idTipo(rs.getInt("tipo_idTipo"));
-                epiDto.setMarca_idMarca(rs.getInt("marca_idMarca"));
+                epiDto.setNomeTipo(rs.getString("nomeTipo"));
+                epiDto.setNomeMarca(rs.getString("nomeMarca"));
+                epiDto.setQuantidade(rs.getInt("quantidade"));
+                epiDto.setValidade(rs.getDate("validade"));
+                epiDto.setDescricao(rs.getString("descricao"));
+                epiDto.setCa(rs.getInt("ca"));
+
+                listaEpis.add(epiDto);
+
+            }
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(null, erro + "Erro Pesquisar todos EPIs");
+        }
+
+        return listaEpis;
+
+    }
+
+    public ArrayList<EPIDTO> pesquisarEpi(String id, String nome) {
+
+        String sql = "SELECT e.idEpi, e.nomeEpi, t.nomeTipo, m.nomeMarca, e.quantidade, e.validade, e.descricao, e.ca "
+                + "FROM epi e "
+                + "JOIN tipo t ON e.tipo_idTipo = t.idTipo "
+                + "JOIN marca m ON e.marca_idMarca = m.idMarca "
+                + "WHERE (? = '' OR e.idEpi = ?) "
+                + "AND (? = '' OR e.nomeEpi LIKE ?)";
+
+        
+
+        try {
+
+            conn = new Conexao().conectaBD();
+            pstm = conn.prepareStatement(sql);
+            
+            pstm.setString(1, id);
+            pstm.setString(2, id);
+            pstm.setString(3, nome);
+            pstm.setString(4, "%" + nome + "%");
+            
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+
+                EPIDTO epiDto = new EPIDTO();
+                epiDto.setIdEpi(rs.getInt("idEpi"));
+                epiDto.setNomeEpi(rs.getString("nomeEpi"));
+                epiDto.setNomeTipo(rs.getString("nomeTipo"));
+                epiDto.setNomeMarca(rs.getString("nomeMarca"));
                 epiDto.setQuantidade(rs.getInt("quantidade"));
                 epiDto.setValidade(rs.getDate("validade"));
                 epiDto.setDescricao(rs.getString("descricao"));

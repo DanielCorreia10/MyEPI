@@ -33,19 +33,5 @@ public class MarcaDAO {
         }
     }
 
-    public MarcaDTO buscarPorId(int idMarca) throws SQLException {
-        String sql = "SELECT * FROM cargo WHERE idMarca = ?";
-        pstm = conn.prepareStatement(sql);
-        pstm.setInt(1, idMarca);
-        rs = pstm.executeQuery();
 
-        if (rs.next()) {
-            MarcaDTO marca = new MarcaDTO();
-            marca.setIdMarca(rs.getInt("idMarca"));
-            marca.setNomeMarca(rs.getString("nomeMarca"));
-            return marca;
-        }
-
-        return null;
-    }
 }

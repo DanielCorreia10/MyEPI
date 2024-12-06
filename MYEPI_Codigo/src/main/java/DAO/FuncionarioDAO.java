@@ -16,7 +16,7 @@ public class FuncionarioDAO {
     ArrayList<FuncionarioDTO> lista = new ArrayList<>();
     
     public void cadastrarFuncionario(FuncionarioDTO funcionariodto){
-        String sql = "insert into funcionario(NomeFuncionario, Sobrenome)values (?,?)";
+        String sql = "insert into funcionario(NomeFuncionario, Sobrenome, cargo_idCargo )values (?,?,?)";
         
         conn = new Conexao().conectaBD();
         
@@ -24,6 +24,7 @@ public class FuncionarioDAO {
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, funcionariodto.getNomeFuncionario()); 
             pstm.setString(2, funcionariodto.getSobrenomeFuncionario());
+            pstm.setInt(3, funcionariodto.getCargo_idCargo());
             pstm.execute();
             pstm.close();
         } catch (Exception e) {

@@ -6,7 +6,7 @@ import java.sql.Date;
 
 public class EPIDTO {
     
-    private String nomeEpi, descricao;
+    private String nomeEpi, descricao,nomeTipo, nomeMarca;
     private Date validade;
     private int idEpi, ca, quantidade, marca_idMarca, tipo_idTipo;
 
@@ -75,5 +75,22 @@ public class EPIDTO {
         this.ca = ca;
     }
 
+    public String getNomeTipo() {
+        return nomeTipo;
+    }
+
+    public void setNomeTipo(String nomeTipo) {
+        this.nomeTipo = nomeTipo;
+    }
+
+    public String getNomeMarca() {
+        return nomeMarca;
+    }
+
+    public void setNomeMarca(String nomeMarca) {
+        this.nomeMarca = nomeMarca;
+    }
+
+    
     
 }

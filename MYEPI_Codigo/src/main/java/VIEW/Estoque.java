@@ -1,6 +1,5 @@
 package VIEW;
 
-
 import DAO.EPIDAO;
 import DAO.FuncionarioDAO;
 import DAO.MarcaDAO;
@@ -13,7 +12,6 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.util.List;
 
-
 public class Estoque extends javax.swing.JFrame {
 
     public Estoque() {
@@ -24,19 +22,19 @@ public class Estoque extends javax.swing.JFrame {
     private void listarValores() {
 
         EPIDAO epiDao = new EPIDAO();
-        
+
         DefaultTableModel model = (DefaultTableModel) tabelaEpis.getModel();
         model.setNumRows(0); // Limpa a tabela antes de preencher
 
-        ArrayList<EPIDTO> lista = epiDao.ListarEpis();
+        ArrayList<EPIDTO> lista = epiDao.ListarTodosEpis();
 
         for (EPIDTO epi : lista) {
-           
+
             model.addRow(new Object[]{
                 epi.getIdEpi(),
                 epi.getNomeEpi(),
-                epi.getTipo_idTipo(),
-                epi.getMarca_idMarca(),
+                epi.getNomeTipo(),
+                epi.getNomeMarca(),
                 epi.getQuantidade(),
                 epi.getValidade(),
                 epi.getDescricao(),
@@ -46,27 +44,26 @@ public class Estoque extends javax.swing.JFrame {
 
     }
 
-    private List<EPIDTO> pesquisarEpi(String id, String nome) {
-    EPIDAO epiDao = new EPIDAO();
-    List<EPIDTO> listaFiltrada = new ArrayList<>();
-    List<EPIDTO> lista = epiDao.ListarEpis();
+    private List<EPIDTO> listarEpi(String id, String nome) {
+        EPIDAO epiDao = new EPIDAO();
+        List<EPIDTO> listaFiltrada = new ArrayList<>();
+        List<EPIDTO> lista = epiDao.ListarTodosEpis();
 
-    for (EPIDTO epi : lista) {
-        boolean matchId = id.isEmpty() || String.valueOf(epi.getIdEpi()).equals(id);
-        boolean matchNome = nome.isEmpty() || epi.getNomeEpi().toLowerCase().contains(nome.toLowerCase());
+        for (EPIDTO epi : lista) {
+            boolean matchId = id.isEmpty() || String.valueOf(epi.getIdEpi()).equals(id);
+            boolean matchNome = nome.isEmpty() || epi.getNomeEpi().toLowerCase().contains(nome.toLowerCase());
 
-        if (matchId && matchNome) {
-            listaFiltrada.add(epi);
+            if (matchId && matchNome) {
+                listaFiltrada.add(epi);
+            }
         }
+
+        if (listaFiltrada.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum registro encontrado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        return listaFiltrada;
     }
-
-    if (listaFiltrada.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Nenhum registro encontrado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    return listaFiltrada;
-}
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -86,7 +83,7 @@ public class Estoque extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtNome2 = new javax.swing.JTextField();
-        btnEditar = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -166,11 +163,11 @@ public class Estoque extends javax.swing.JFrame {
             }
         });
 
-        btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnEditar.setText("Editar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
+                btnSalvarActionPerformed(evt);
             }
         });
 
@@ -236,7 +233,7 @@ public class Estoque extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(txtNome2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(btnEditar)
+                                        .addComponent(btnSalvar)
                                         .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +311,7 @@ public class Estoque extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNome2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditar))
+                        .addComponent(btnSalvar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -353,7 +350,7 @@ public class Estoque extends javax.swing.JFrame {
         String nomeText = txtNome.getText().trim();
 
         // Filtra os dados com base nos valores fornecidos
-        List<EPIDTO> resultadosFiltrados = pesquisarEpi(idText, nomeText);
+        List<EPIDTO> resultadosFiltrados = listarEpi(idText, nomeText);
 
         // Atualiza a tabela com os resultados filtrados
         DefaultTableModel model = (DefaultTableModel) tabelaEpis.getModel();
@@ -363,8 +360,8 @@ public class Estoque extends javax.swing.JFrame {
             model.addRow(new Object[]{
                 epi.getIdEpi(),
                 epi.getNomeEpi(),
-                epi.getTipo_idTipo(),
-                epi.getMarca_idMarca(),
+                epi.getNomeTipo(),
+                epi.getNomeMarca(),
                 epi.getQuantidade(),
                 epi.getValidade(),
                 epi.getDescricao(),
@@ -393,59 +390,58 @@ public class Estoque extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEstoqueActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-       
 
-    }//GEN-LAST:event_btnEditarActionPerformed
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-     */
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Estoque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Estoque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Estoque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Estoque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(Estoque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(Estoque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(Estoque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(Estoque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            new Estoque().setVisible(true);
-        }
-    });
-}
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Estoque().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEstoque;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;
+    private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
