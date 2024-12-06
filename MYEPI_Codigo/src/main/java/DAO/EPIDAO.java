@@ -20,7 +20,7 @@ public class EPIDAO {
 
     public void cadastrarEPI(EPIDTO epidto) {
 
-        String sql = "insert into epi (nomeEPI, validade, ca, descricao, quantidade, marca_idMarca, tipo_idTipo)values (?,?,?,?,?,?,?)";
+        String sql = "insert into epi (nomeEpi, validade, ca, descricao, quantidade, marca_idMarca, tipo_idTipo)values (?,?,?,?,?,?,?)";
 
         conn = new Conexao().conectaBD();
 
@@ -35,6 +35,7 @@ public class EPIDAO {
             pstm.setInt(7, epidto.getTipo_idTipo());
             pstm.execute();
             pstm.close();
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e + " EPIDAO");
         }
@@ -81,15 +82,14 @@ public class EPIDAO {
 
     public ArrayList<EPIDTO> pesquisarEpi(String id, String nome) {
 
-   
         try {
-            
+
             String sql = "SELECT e.idEpi, e.nomeEpi, t.nomeTipo, m.nomeMarca, e.quantidade, e.validade, e.descricao, e.ca "
-                + "FROM epi e "
-                + "JOIN tipo t ON e.tipo_idTipo = t.idTipo "
-                + "JOIN marca m ON e.marca_idMarca = m.idMarca "
-                + "WHERE (? = '' OR e.idEpi = ?) "
-                + "AND (? = '' OR e.nomeEpi LIKE ?)";
+                    + "FROM epi e "
+                    + "JOIN tipo t ON e.tipo_idTipo = t.idTipo "
+                    + "JOIN marca m ON e.marca_idMarca = m.idMarca "
+                    + "WHERE (? = '' OR e.idEpi = ?) "
+                    + "AND (? = '' OR e.nomeEpi LIKE ?)";
 
             conn = new Conexao().conectaBD();
             pstm = conn.prepareStatement(sql);
@@ -126,33 +126,39 @@ public class EPIDAO {
 
     }
 
-    public void alterarEpi(int id, String nome, String sobrenome, int idCargo) {
+    public void alterarEpi(EPIDTO epi) {
 
-        String sql = "UPDATE epi SET nomeEPI = ?, validade = ?, ca = ?, descricao = ?, quantidade = ?, marca_idMarca = ?, tipo_idTipo = ?";
+        String sql = "UPDATE epi SET idEpi = ?, nomeEPI = ?, validade = ?, ca = ?, descricao = ?, quantidade = ?, marca_idMarca = ?, tipo_idTipo = ? WHERE idEpi = ?";
 
         conn = new Conexao().conectaBD();
 
         try {
-
             pstm = conn.prepareStatement(sql);
-            pstm.setString(1, nome);
-            pstm.setString(2, sobrenome);
-            pstm.setInt(3, idCargo);
-            pstm.setInt(4, id);
+
+            // Configurando os parâmetros da consulta com os valores do objeto EPIDTO
+            pstm.setInt(1, epi.getIdEpi());
+            pstm.setString(2, epi.getNomeEpi());
+            pstm.setDate(3, epi.getValidade());
+            pstm.setInt(4, epi.getCa());
+            pstm.setString(5, epi.getDescricao());
+            pstm.setInt(6, epi.getQuantidade());
+            pstm.setInt(7, epi.getMarca_idMarca());
+            pstm.setInt(8, epi.getTipo_idTipo());
+            pstm.setInt(9, epi.getIdEpi()); // Atualizando pelo ID do EPI
+
             pstm.execute();
             pstm.close();
-
+            
+            
         } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, e + "Alterar EPIDAO");
-
+            JOptionPane.showMessageDialog(null, e + " Alterar EPIDAO");
         }
 
     }
 
     public void excluirEpi(int id) {
 
-        String sql = "DELETE FROM epi WHERE id = ?;";
+        String sql = "DELETE FROM epi WHERE idEpi = ?;";
 
         conn = new Conexao().conectaBD();
 
@@ -162,6 +168,8 @@ public class EPIDAO {
             pstm.setInt(1, id);
             pstm.execute();
             pstm.close();
+            
+           
 
         } catch (Exception e) {
 
