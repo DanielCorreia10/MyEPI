@@ -3,23 +3,23 @@ package DTO;
 
 public class FuncionarioDTO {
 
-    private String NomeFuncionario, SobrenomeFuncionario; 
+    private String nomeFuncionario, sobrenome, nomeCargo; 
     private int idFuncionario, cargo_idCargo;
 
     public String getNomeFuncionario() {
-        return NomeFuncionario;
+        return nomeFuncionario;
     }
 
     public String getSobrenomeFuncionario() {
-        return SobrenomeFuncionario; 
+        return sobrenome; 
     }
 
-    public void setNomeFuncionario(String NomeFuncionario) {
-        this.NomeFuncionario = NomeFuncionario;
+    public void setNomeFuncionario(String nomeFuncionario) {
+        this.nomeFuncionario = nomeFuncionario;
     }
 
-    public void setSobrenomeFuncionario(String SobrenomeFuncionario) {
-        this.SobrenomeFuncionario = SobrenomeFuncionario; 
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome; 
     }
 
     public int getCargo_idCargo() {
@@ -37,5 +37,21 @@ public class FuncionarioDTO {
     public void setIdFuncionario(int idFuncionario) {
         this.idFuncionario = idFuncionario;
     }
+
+    public String getNomeCargo() {
+        return nomeCargo;
+    }
+
+    public void setNomeCargo(String nomeCargo) {
+        this.nomeCargo = nomeCargo;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+    
+    
+    
+    
     
 }

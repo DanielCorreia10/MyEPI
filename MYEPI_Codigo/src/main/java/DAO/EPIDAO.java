@@ -40,15 +40,15 @@ public class EPIDAO {
         }
     }
 
-    public ArrayList<EPIDTO> ListarTodosEpis() {
-         
+    public ArrayList<EPIDTO> listarTodosEpis() {
+
         try {
 
-             String sql = "SELECT e.idEpi, e.nomeEpi, t.nomeTipo, m.nomeMarca, e.quantidade, e.validade, e.descricao, e.ca " +
-             "FROM epi e " +
-             "JOIN tipo t ON e.tipo_idTipo = t.idTipo " +
-             "JOIN marca m ON e.marca_idMarca = m.idMarca " +
-             "ORDER BY e.idEpi";
+            String sql = "SELECT e.idEpi, e.nomeEpi, t.nomeTipo, m.nomeMarca, e.quantidade, e.validade, e.descricao, e.ca "
+                    + "FROM epi e "
+                    + "JOIN tipo t ON e.tipo_idTipo = t.idTipo "
+                    + "JOIN marca m ON e.marca_idMarca = m.idMarca "
+                    + "ORDER BY e.idEpi";
 
             conn = new Conexao().conectaBD();
             pstm = conn.prepareStatement(sql);
@@ -81,25 +81,24 @@ public class EPIDAO {
 
     public ArrayList<EPIDTO> pesquisarEpi(String id, String nome) {
 
-        String sql = "SELECT e.idEpi, e.nomeEpi, t.nomeTipo, m.nomeMarca, e.quantidade, e.validade, e.descricao, e.ca "
+   
+        try {
+            
+            String sql = "SELECT e.idEpi, e.nomeEpi, t.nomeTipo, m.nomeMarca, e.quantidade, e.validade, e.descricao, e.ca "
                 + "FROM epi e "
                 + "JOIN tipo t ON e.tipo_idTipo = t.idTipo "
                 + "JOIN marca m ON e.marca_idMarca = m.idMarca "
                 + "WHERE (? = '' OR e.idEpi = ?) "
                 + "AND (? = '' OR e.nomeEpi LIKE ?)";
 
-        
-
-        try {
-
             conn = new Conexao().conectaBD();
             pstm = conn.prepareStatement(sql);
-            
+
             pstm.setString(1, id);
             pstm.setString(2, id);
             pstm.setString(3, nome);
             pstm.setString(4, "%" + nome + "%");
-            
+
             rs = pstm.executeQuery();
 
             while (rs.next()) {

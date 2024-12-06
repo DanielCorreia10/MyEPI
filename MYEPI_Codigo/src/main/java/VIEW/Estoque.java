@@ -26,7 +26,7 @@ public class Estoque extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tabelaEpis.getModel();
         model.setNumRows(0); // Limpa a tabela antes de preencher
 
-        ArrayList<EPIDTO> lista = epiDao.ListarTodosEpis();
+        ArrayList<EPIDTO> lista = epiDao.listarTodosEpis();
 
         for (EPIDTO epi : lista) {
 
@@ -47,7 +47,7 @@ public class Estoque extends javax.swing.JFrame {
     private List<EPIDTO> listarEpi(String id, String nome) {
         EPIDAO epiDao = new EPIDAO();
         List<EPIDTO> listaFiltrada = new ArrayList<>();
-        List<EPIDTO> lista = epiDao.ListarTodosEpis();
+        List<EPIDTO> lista = epiDao.listarTodosEpis();
 
         for (EPIDTO epi : lista) {
             boolean matchId = id.isEmpty() || String.valueOf(epi.getIdEpi()).equals(id);

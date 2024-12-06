@@ -196,7 +196,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         
         FuncionarioDTO funcionarioDto = new FuncionarioDTO();
         funcionarioDto.setNomeFuncionario(nome);
-        funcionarioDto.setSobrenomeFuncionario(sobrenome);
+        funcionarioDto.setSobrenome(sobrenome);
         funcionarioDto.setCargo_idCargo(cargoId);
         
         FuncionarioDAO funcionarioDao = new FuncionarioDAO();

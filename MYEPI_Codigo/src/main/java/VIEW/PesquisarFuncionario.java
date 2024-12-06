@@ -1,20 +1,59 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package VIEW;
 
-/**
- *
- * @author aluno.den
- */
+import DAO.FuncionarioDAO;
+import DTO.FuncionarioDTO;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class PesquisarFuncionario extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PesquisarFuncionario
-     */
     public PesquisarFuncionario() {
         initComponents();
+        listarValores();
+    }
+
+    private void listarValores() {
+
+        FuncionarioDAO funcionarioDao = new FuncionarioDAO();
+
+        DefaultTableModel model = (DefaultTableModel) tabelaFuncionarios.getModel();
+        model.setNumRows(0); // Limpa a tabela antes de preencher
+
+        ArrayList<FuncionarioDTO> lista = funcionarioDao.listarTodosFuncionarios();
+
+        for (FuncionarioDTO funcionario : lista) {
+
+            model.addRow(new Object[]{
+                funcionario.getIdFuncionario(),
+                funcionario.getNomeFuncionario(),
+                funcionario.getSobrenome(),
+                funcionario.getNomeCargo()
+            });
+        }
+    }
+
+    private List<FuncionarioDTO> listarFuncionario(String id, String nome) {
+        FuncionarioDAO funcionarioDao = new FuncionarioDAO();
+        List<FuncionarioDTO> listaFiltrada = new ArrayList<>();
+        List<FuncionarioDTO> lista = funcionarioDao.listarTodosFuncionarios();
+
+        for (FuncionarioDTO funcionario : lista) {
+            // Filtra pelo ID (se fornecido) ou pelo Nome (se fornecido)
+            boolean matchId = id.isEmpty() || String.valueOf(funcionario.getIdFuncionario()).equals(id);
+            boolean matchNome = nome.isEmpty() || funcionario.getNomeFuncionario().toLowerCase().contains(nome.toLowerCase());
+
+            if (matchId && matchNome) {
+                listaFiltrada.add(funcionario);
+            }
+        }
+
+        if (listaFiltrada.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum registro encontrado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        return listaFiltrada;
     }
 
     /**
@@ -30,7 +69,7 @@ public class PesquisarFuncionario extends javax.swing.JFrame {
         btnVoltar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaEpis = new javax.swing.JTable();
+        tabelaFuncionarios = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -54,13 +93,18 @@ public class PesquisarFuncionario extends javax.swing.JFrame {
 
         btnPesquisar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         btnVoltar.setText("VOLTAR");
 
         jLabel5.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel5.setText("Nome:");
 
-        tabelaEpis.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -71,7 +115,7 @@ public class PesquisarFuncionario extends javax.swing.JFrame {
                 "ID", "NOME", "SOBRENOME", "CARGO"
             }
         ));
-        jScrollPane1.setViewportView(tabelaEpis);
+        jScrollPane1.setViewportView(tabelaFuncionarios);
 
         jLabel6.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel6.setText("ID:");
@@ -153,6 +197,11 @@ public class PesquisarFuncionario extends javax.swing.JFrame {
         });
 
         btnExibir.setText("Exibir Funcionários");
+        btnExibir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExibirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -233,12 +282,13 @@ public class PesquisarFuncionario extends javax.swing.JFrame {
                 .addGap(1, 1, 1)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPesquisar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -296,6 +346,36 @@ public class PesquisarFuncionario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNome2ActionPerformed
 
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+
+        // Obtém os valores dos campos de entrada
+        String idText = txtId.getText().trim();
+        String nomeText = txtNome.getText().trim();
+
+// Filtra os dados com base nos valores fornecidos
+        List<FuncionarioDTO> resultadosFiltrados = listarFuncionario(idText, nomeText);
+
+// Atualiza a tabela com os resultados filtrados
+        DefaultTableModel model = (DefaultTableModel) tabelaFuncionarios.getModel();
+        model.setRowCount(0); // Limpa a tabela
+
+        for (FuncionarioDTO funcionario : resultadosFiltrados) {
+            model.addRow(new Object[]{
+                funcionario.getIdFuncionario(),
+                funcionario.getNomeFuncionario(),
+                funcionario.getSobrenome(),
+                funcionario.getNomeCargo()
+            });
+        }
+
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnExibirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExibirActionPerformed
+        
+        listarValores();
+        
+    }//GEN-LAST:event_btnExibirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -348,7 +428,7 @@ public class PesquisarFuncionario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabelaEpis;
+    private javax.swing.JTable tabelaFuncionarios;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtId2;
     private javax.swing.JTextField txtId3;
